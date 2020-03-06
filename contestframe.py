@@ -37,7 +37,7 @@ class ContestFrame(wx.Frame):
         self.parent = parent
         self.font = wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
         self.bigFont = wx.Font(30, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
-        self.SetBackgroundColour( wx.Colour( 255, 255, 255 ) )        
+        self.SetBackgroundColour(wx.Colour( 255, 255, 255 ))        
         # copy over since we need other questions too
         self.questionTimer = dat.questionTimer
 
@@ -50,8 +50,8 @@ class ContestFrame(wx.Frame):
         self.SetSizer( container)
         container.Add( stack, 1, wx.EXPAND|wx.ALL, 10)
         
-        startBtn = wx.Button(self, wx.ID_ANY, "Start")
-        buzzerTestBtn = wx.Button(self, wx.ID_ANY, "Test Buzzers")
+        startBtn = wx.Button(self, wx.ID_ANY, 'Start')
+        buzzerTestBtn = wx.Button(self, wx.ID_ANY, 'Test Buzzers')
         stack.Add(buzzerTestBtn, 0, wx.CENTER|wx.EXPAND)
         stack.Add(startBtn, 0, wx.CENTER|wx.EXPAND)
         startBtn.Bind(wx.EVT_BUTTON, self.OnStartClicked)
@@ -61,7 +61,7 @@ class ContestFrame(wx.Frame):
         stack.Add(resetBtn, 0, wx.CENTER|wx.EXPAND, 10)
         resetBtn.Bind(wx.EVT_BUTTON, self.OnResetClicked)
 
-        self.timertext = wx.StaticText(self, wx.ID_ANY, "%d"%self.questionTimer)
+        self.timertext = wx.StaticText(self, wx.ID_ANY, '%d'%self.questionTimer)
         self.timertext.SetFont(self.bigFont)
         stack.Add( self.timertext, 0, wx.CENTER, 10)
         self.timerEnabled = False
@@ -88,7 +88,7 @@ class ContestFrame(wx.Frame):
         self.cmpBEnabled = True
         
         if ctst.compA is None or ctst.compA.name is None:
-            t = "--Competitor A unset--"
+            t = '--Competitor A unset--'
         else:
             t = ctst.compA.name
 
@@ -99,8 +99,8 @@ class ContestFrame(wx.Frame):
         aStack.Add( self.aScoreBox, 1)
         self.aScoreBox.Bind(wx.EVT_SPINCTRL, self.updateAScore)
         
-        if ctst.compB.name is None:
-            t = "--Competitor B unset--"
+        if ctst.compB is None or ctst.compB.name is None:
+            t = '--Competitor B unset--'
         else:
             t = ctst.compB.name
 
@@ -115,8 +115,8 @@ class ContestFrame(wx.Frame):
         stack.Add(finishBtn, 0, wx.CENTER|wx.EXPAND)
         finishBtn.Bind(wx.EVT_BUTTON, self.OnFinishClicked)
         
-        self.aScoreBox.SetValue("%d"%ctst.scoreA)
-        self.bScoreBox.SetValue("%d"%ctst.scoreB)
+        self.aScoreBox.SetValue('%d'%ctst.scoreA)
+        self.bScoreBox.SetValue('%d'%ctst.scoreB)
         self.MakeModal()
         startBtn.Bind(wx.EVT_KEY_DOWN, self.OnKeyPress)
 
@@ -139,7 +139,7 @@ class ContestFrame(wx.Frame):
         if dat.buzzerConfig.keycodeA == letter and self.cmpAEnabled:
             if self.callLater is not None:
                 self.callLater.Stop()
-            print("got buzzer code for competitor A")
+            #print('got buzzer code for competitor A')
             answerframe.AnswerFrame(self, contest=self.ctst, competitor=self.cmpA,
                                     scorebox=self.aScoreBox, competitorAorB = 'a',
                                     title=(self.cmpA.name or '')+ ' For The Answer!').Show(True)
@@ -147,7 +147,7 @@ class ContestFrame(wx.Frame):
         elif dat.buzzerConfig.keycodeB == letter and self.cmpBEnabled:
             if self.callLater is not None:
                 self.callLater.Stop()
-            print("got buzzer code for competitor B")
+            #print('got buzzer code for competitor B')
             answerframe.AnswerFrame(self, contest=self.ctst, competitor=self.cmpB,
                                     scorebox=self.bScoreBox, competitorAorB = 'b',
                                     title=(self.cmpB.name or '') + ' For The Answer!').Show(True)
@@ -155,6 +155,7 @@ class ContestFrame(wx.Frame):
             print(letter)
         
     def OnStartClicked(self, event):
+        self.SetBackgroundColour(wx.Colour(255,255,255))
         if self.questionTimer > 0:
             self.callLater = wx.CallLater(100, self.on_timer)
             
@@ -163,7 +164,6 @@ class ContestFrame(wx.Frame):
             self, tier=self.tier, pairing=self.pairing).Show()
         
     def OnFinishClicked(self, event):
-
         if self.callLater is not None:
             self.callLater.Stop()
             del self.callLater
@@ -175,10 +175,10 @@ class ContestFrame(wx.Frame):
 
         self.parent.treePanel.updateTree()
         self.parent.SetFocus()
-        #self.Destroy()
         self.Close()
 
     def OnResetClicked(self, event):
+        self.SetBackgroundColour(wx.Colour(255,255,255))
         try:
             self.callLater.Stop()
         except AttributeError:
@@ -195,14 +195,20 @@ class ContestFrame(wx.Frame):
             del self._disabler
 
     def displayTime(self):
-        self.timertext.SetLabel("%d"%self.questionTimer)
+        self.timertext.SetLabel('%d'%self.questionTimer)
         
     def on_timer(self, *args, **kwargs):
         self.questionTimer -= 0.1
 
+        # the background color code needs to go in a seperate /if/
+        # statement to make it turn red when it should. 
+        if self.questionTimer < 1:
+            self.SetBackgroundColour(wx.Colour(255,0,0))
+            
         if self.questionTimer <= 0:
             self.timerEnabled = False
             return
+        
         self.displayTime()
         self.callLater.SetArgs( 100, self.on_timer)
         self.callLater.Start()

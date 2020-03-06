@@ -74,6 +74,7 @@ class AnswerFrame(wx.Frame):
         self.OnTimer()
 
     def correct(self, event):
+        self.SetBackgroundColour(wx.Colour(255,255,255))
         self.contest.increment(self.competitor)
         if self.callLater is not None:
             self.callLater.Stop()
@@ -92,6 +93,7 @@ class AnswerFrame(wx.Frame):
         self.Destroy()
 
     def incorrect(self, event):
+        self.SetBackgroundColour(wx.Colour(255,255,255))
         if self.callLater is not None:
             self.callLater.Stop()
             del self.callLater
@@ -112,6 +114,11 @@ class AnswerFrame(wx.Frame):
         
         self.answerTimer -= 0.1
 
+        # this is done slightly differently than contestframe because
+        # the timer code is more complex
+        if self.answerTimer <= 0.05:
+            self.SetBackgroundColour(wx.Colour(255,0,0))
+            
         if self.answerTimer <= 0:
             self.timerEnabled = False
             return
