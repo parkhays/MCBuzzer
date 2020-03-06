@@ -85,6 +85,7 @@ class TreePanel(wx.Panel):
     def updateTree(self):
         """Update button text to reflect current state of the competition"""
         dat.contestState.updateAllFromParents()
+        dat.autoSave()
         for tier in range( len( dat.contestState.cstate)):
             for pairing in range( len( dat.contestState.cstate[tier])):
                 btn = self.buttons[tier][pairing]

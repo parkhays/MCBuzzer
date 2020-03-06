@@ -17,9 +17,11 @@
 """Global data storage and manager"""
 
 import pickle
+import os
 
 import competitor
 import conteststate
+
 class UnsetFilenameError(Exception):
     pass
 
@@ -39,8 +41,8 @@ class GData(object):
         self.contestState = conteststate.ContestState()
         self.buzzerConfig = BuzzerConfig()
         self.fileName = None
-        self.questionTimer = 60
-        self.answerTimer = 7
+        self.questionTimer = 45
+        self.answerTimer = 3
 
     def __str__(self):
         s = ""
@@ -101,6 +103,18 @@ class GData(object):
         else:
             self.save(open(self.fileName, 'wb'))
 
+    def autoSave(self):
+        if self.fileName is None:
+            return
+
+        parts = os.path.splitext(self.fileName)
+        if parts[0].endswith("-autosave"):
+            autosaveFileName = parts[0] + parts[1]
+        else:
+            autosaveFileName = parts[0] + "-autosave" + parts[1]
+        
+        self.save(open(autosaveFileName, 'wb'))
+        
     def open(self, fn):
         self.load( open(fn, 'rb'))
         self.fileName = fn
