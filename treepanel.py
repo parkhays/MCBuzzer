@@ -121,4 +121,5 @@ class TreePanel(wx.Panel):
         cframe = contestframe.ContestFrame(
             self.parent, wx.ID_ANY, "Compete",
             tier=button.tierPairing[0], pairing=button.tierPairing[1], tree=self)
+        cframe.Centre()
         cframe.Show(True)

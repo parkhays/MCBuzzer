@@ -140,19 +140,24 @@ class ContestFrame(wx.Frame):
             if self.callLater is not None:
                 self.callLater.Stop()
             #print('got buzzer code for competitor A')
-            answerframe.AnswerFrame(self, contest=self.ctst, competitor=self.cmpA,
+            a = answerframe.AnswerFrame(self, contest=self.ctst, competitor=self.cmpA,
                                     scorebox=self.aScoreBox, competitorAorB = 'a',
-                                    title=(self.cmpA.name or '')+ ' For The Answer!').Show(True)
+                                    title=(self.cmpA.name or '')+ ' For The Answer!')
+            a.Centre()
+            a.Show(True)
             
         elif dat.buzzerConfig.keycodeB == letter and self.cmpBEnabled:
             if self.callLater is not None:
                 self.callLater.Stop()
             #print('got buzzer code for competitor B')
-            answerframe.AnswerFrame(self, contest=self.ctst, competitor=self.cmpB,
+            a = answerframe.AnswerFrame(self, contest=self.ctst, competitor=self.cmpB,
                                     scorebox=self.bScoreBox, competitorAorB = 'b',
-                                    title=(self.cmpB.name or '') + ' For The Answer!').Show(True)
+                                    title=(self.cmpB.name or '') + ' For The Answer!')
+            a.Centre()
+            a.Show(True)
+            
         else:
-            print(letter)
+            print("something's wrong, got letter '%s' that wasn't registered in dat" % letter)
         
     def OnStartClicked(self, event):
         self.SetBackgroundColour(wx.Colour(255,255,255))

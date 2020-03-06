@@ -120,10 +120,12 @@ class MCBuzzer(wx.Frame):
 
     def OnBuzzerSetup(self, event):
         buzzerConfigFrame = buzzersetupframe.BuzzerConfigFrame(None, title="Set Buzzer Keys")
+        buzzerConfigFrame.Centre()
         buzzerConfigFrame.Show(True)
 
     def OnTimerSetup(self, event):
         timerSetupFrame = timersetupframe.TimerSetupFrame(None, title="Set Timer Lengths")
+        timerSetupFrame.Centre()
         timerSetupFrame.Show(True)
         
     def Save(self, event):
@@ -176,14 +178,17 @@ class MCBuzzer(wx.Frame):
         
     def editContestants(self, event=None):
         competitorFrame = competitorGrid.CompetitorFrame(None, title="Competitor Entry", style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
+        competitorFrame.Centre()
         competitorFrame.Show(True)
 
     def About(self, event=None):
         ad = aboutdialog.AboutFrame(self)
+        ad.Centre()
         ad.Show()
     
     def License(self, event=None):
         ld = licensedialog.LicenseFrame(self)
+        ld.Centre()
         ld.Show()
         
 if __name__ == "__main__":
