@@ -179,8 +179,10 @@ class ContestFrame(wx.Frame):
         self.Close()
 
     def OnResetClicked(self, event):
-        if self.callLater is not None:
+        try:
             self.callLater.Stop()
+        except AttributeError:
+            pass
         self.questionTimer = dat.questionTimer
         self.timertext.SetLabel(str(self.questionTimer))
         self.cmpAEnabled = True
@@ -206,9 +208,10 @@ class ContestFrame(wx.Frame):
         self.callLater.Start()
         
     def OnClose(self, event):
-
-        if self.callLater is not None:
+        try:
             self.callLater.Stop()
+        except AttributeError:
+            pass
             
         self.parent.Raise()
         event.Skip()

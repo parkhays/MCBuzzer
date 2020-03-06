@@ -100,4 +100,5 @@ class BuzzerTestFrame(wx.Frame):
             del self._disabler
 
     def OnClose(self, event):
+        self.parent.Raise()
         self.Destroy()

@@ -58,7 +58,7 @@ class TreePanel(wx.Panel):
                         # add text
                         txt = wx.StaticText(self, wx.ID_ANY, "\nThird Place")
                         w.Add(txt, proportion=0, flag=wx.ALL)
-                        w.Add(btn, proportion=0)
+                        w.Add(btn, proportion=0, flag=wx.EXPAND)
                         w.AddStretchSpacer(1)
                     else:
                         w.Add(btn, proportion=0)
@@ -67,11 +67,11 @@ class TreePanel(wx.Panel):
                     # top and bottom. In the first condition, a spacer
                     # is added except at the end.
 
-                    w.Add(btn,proportion=1,flag=wx.ALL)
+                    w.Add(btn,proportion=1,flag=wx.ALL|wx.EXPAND)
                     if pairing < lastPairingIdx:
                         w.AddStretchSpacer(1)
                 else:
-                    w.Add(btn,proportion=0,flag=wx.ALL)
+                    w.Add(btn,proportion=0,flag=wx.ALL|wx.EXPAND)
                     w.AddStretchSpacer(1)
                     
             self.buttons.append( buttonsInTier)
