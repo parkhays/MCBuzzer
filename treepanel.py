@@ -24,6 +24,7 @@ import contestframe
 class TreePanel(wx.Panel):
     def __init__(self, parent, *args, **kwargs):
         wx.Panel.__init__(self, parent, *args, **kwargs)
+
         self.parent = parent
         
         self.buttons = []

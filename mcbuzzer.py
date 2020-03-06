@@ -38,7 +38,7 @@ class BuzzerTest(wx.Dialog):
     def __init__(self, parent, *args, **kwargs):
         wx.Dialog.__init__(self, parent, *args, **kwargs)
         
-class PrimaryFrame(wx.Frame):
+class MCBuzzer(wx.Frame):
     """Main Frame holding the Panel."""
     def __init__(self, *args, **kwargs):
         """Create the DemoFrame."""
@@ -46,7 +46,7 @@ class PrimaryFrame(wx.Frame):
         
         self.font = wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
         self.SetBackgroundColour( wx.Colour( 255, 255, 255 ) )
-        # Build the menu bar
+
         MenuBar = wx.MenuBar()
 
         FileMenu = wx.Menu()
@@ -66,14 +66,14 @@ class PrimaryFrame(wx.Frame):
         item = FileMenu.Append(wx.ID_EXIT, "&Quit")
         self.Bind(wx.EVT_MENU, self.OnQuit, item)
 
-        #options time
+
         item = OptionsMenu.Append(wx.ID_PREFERENCES, "Setup &Buzzer")
         self.Bind(wx.EVT_MENU, self.OnBuzzerSetup, item)
 
         item = OptionsMenu.Append(wx.ID_ANY, "Setup &Timer")
         self.Bind(wx.EVT_MENU, self.OnTimerSetup, item)
 
-        #contest time
+
         item = ContestMenu.Append(wx.ID_REPLACE, "Contestant &List")
         self.Bind(wx.EVT_MENU, self.editContestants, item)
 
@@ -86,10 +86,10 @@ class PrimaryFrame(wx.Frame):
         item = AboutMenu.Append(wx.ID_ANY, "&License")
         self.Bind(wx.EVT_MENU, self.License, item)
 
-        MenuBar.Append(FileMenu, "&File")
+        MenuBar.Append(FileMenu, '&File')
         MenuBar.Append(ContestMenu, '&Contest')
-        MenuBar.Append(OptionsMenu, "&Options")
-        MenuBar.Append(AboutMenu, "&About")
+        MenuBar.Append(OptionsMenu, '&Options')
+        MenuBar.Append(AboutMenu, '&Help')
         
         self.SetMenuBar(MenuBar)
 
@@ -98,7 +98,7 @@ class PrimaryFrame(wx.Frame):
         self.setTree(None)
 
         # Load the image
-        img = wx.Image(resource_path("resources/main_banner.jpg"), wx.BITMAP_TYPE_ANY)
+        img = wx.Image(resource_path('resources/main_banner.jpg'), wx.BITMAP_TYPE_ANY)
         scale = 0.3
         img.Rescale(scale*img.GetWidth(), scale*img.GetHeight(), wx.IMAGE_QUALITY_HIGH)
         self.bannerBmp = img.ConvertToBitmap()
@@ -188,6 +188,6 @@ class PrimaryFrame(wx.Frame):
         
 if __name__ == "__main__":
     app = wx.App(False)
-    frame = PrimaryFrame(None, wx.ID_ANY, "MATHCOUNTS")
+    frame = MCBuzzer(None, wx.ID_ANY, "MATHCOUNTS")
     frame.Show(True)
     app.MainLoop()
