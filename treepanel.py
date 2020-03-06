@@ -15,16 +15,17 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import wx
+import wx.lib.scrolledpanel
 import os
 
 from gdata import dat
 import competitorGrid
 import contestframe
 
-class TreePanel(wx.Panel):
+class TreePanel(wx.lib.scrolledpanel.ScrolledPanel):
     def __init__(self, parent, *args, **kwargs):
-        wx.Panel.__init__(self, parent, *args, **kwargs)
-
+        wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent, *args, **kwargs)#
+#        wx.Panel.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         
         self.buttons = []
@@ -82,6 +83,10 @@ class TreePanel(wx.Panel):
                 
         self.hgrid.SetSizeHints(self)
         self.SetSizer(self.hgrid)
+
+        self.SetupScrolling()
+
+        self.Fit()
         
     def updateTree(self):
         """Update button text to reflect current state of the competition"""
