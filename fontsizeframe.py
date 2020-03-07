@@ -26,19 +26,32 @@ class FontSizeFrame(wx.Frame):
 
         self.fontSizeSpinBox = wx.SpinCtrl(self)
         self.fontSizeSpinBox.SetValue( dat.nameFontSize)
+        self.fontSizeSpinBox.Bind(wx.EVT_SPINCTRL, self.updateTestFont)
+        self.fontSizeTest = wx.StaticText(self, label='Test')
         
         self.finishButton = wx.Button(self, label='Finish')
         self.finishButton.Bind(wx.EVT_BUTTON, self.finish)
-        self.sizer = wx.GridBagSizer(2, 1)
-        self.sizer.Add(self.fontSizeSpinBox, (0, 0))
-        self.sizer.Add(self.finishButton, pos=(1, 0), span=(1,1), flag=wx.EXPAND)
+
+        self.font = wx.Font(dat.nameFontSize, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
+        self.fontSizeTest.SetFont(self.font)
+        
+        self.sizer = wx.GridBagSizer(3, 1)
+        self.sizer.Add(self.fontSizeTest, (0, 0))
+        self.sizer.Add(self.fontSizeSpinBox, (1, 0))
+        self.sizer.Add(self.finishButton, pos=(2, 0), flag=wx.EXPAND)
 
         self.SetSizerAndFit(self.sizer)
 
         self.initialFontSize = dat.nameFontSize
-        
+
         self.Layout()
         self.SetAutoLayout( True)
+
+    def updateTestFont(self, event):
+        self.font.SetPointSize(self.fontSizeSpinBox.GetValue())
+        self.fontSizeTest.SetFont(self.font)
+        self.fontSizeTest.SetLabel('Test')
+        self.Fit()
         
     def finish(self, event):
         """Compares the font set in the widget to the previous setting, and if
@@ -52,6 +65,7 @@ class FontSizeFrame(wx.Frame):
 
         if self.initialFontSize != dat.nameFontSize:
             self.parent.treePanel.updateTree()
+            self.parent.treePanel.Layout()
             
         self.Close()
 
