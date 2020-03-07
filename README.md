@@ -1,9 +1,8 @@
-# MCbuzzer
-MATHCOUNTS Countdown Round Tool
+# MCbuzzer MATHCOUNTS Countdown Round
 
 First written to support MATHCOUNTS countdown round at New Mexico
 state competition in 2020. MCbuzzer graphical user interface
-programming is in (WxPython)[https://wxpython.org/], so that it will
+programming is in [WxPython](https://wxpython.org/), so that it will
 work on major operating systems Windows, Mac, and Linux. 
 
 The main window shows the state of the contest. Sixteen competitors
@@ -37,7 +36,7 @@ features:
   Buzzer](https://www.alignable.com/doylestown-pa/winking-fox-productions-llc-dba-affordable-buzzers),
   though can offer no endorsement.
   
-The code is copyright by Park Hays, but it is released under Gnu
+The code is copyright by Park Hays, but it is released under GNU
 General Public License 3.0. If you would like to contribute or request
 a new feature, please contact the author.
 
