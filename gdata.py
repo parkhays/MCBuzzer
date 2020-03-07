@@ -43,7 +43,8 @@ class GData(object):
         self.fileName = None
         self.questionTimer = 45
         self.answerTimer = 3
-
+        self.nameFontSize = 18
+        
     def __str__(self):
         s = ""
         if self.competitorList is None:
@@ -89,7 +90,8 @@ class GData(object):
                       'contestState': self.contestState,
                       'buzzerConfig': self.buzzerConfig,
                       'questionTimer': self.questionTimer,
-                      'answerTimer': self.answerTimer},
+                      'answerTimer': self.answerTimer,
+                      'nameFontSize': self.nameFontSize},
                      fid)
 
     def saveToFile(self, fn = None):
@@ -131,6 +133,11 @@ class GData(object):
         
         try:
             self.answerTimer = d['answerTimer']
+        except KeyError:
+            pass
+
+        try:
+            self.nameFontSize = d['nameFontSize']
         except KeyError:
             pass
 

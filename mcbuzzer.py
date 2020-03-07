@@ -31,6 +31,7 @@ import buzzersetupframe
 import timersetupframe
 import licensedialog
 import aboutdialog
+import fontsizeframe
 
 from resource import resource_path
 
@@ -73,7 +74,9 @@ class MCBuzzer(wx.Frame):
         item = OptionsMenu.Append(wx.ID_ANY, "Setup &Timer")
         self.Bind(wx.EVT_MENU, self.OnTimerSetup, item)
 
-
+        item = OptionsMenu.Append(wx.ID_ANY, "Set &Font Size")
+        self.Bind(wx.EVT_MENU, self.setFontSize, item)
+        
         item = ContestMenu.Append(wx.ID_REPLACE, "Contestant &List")
         self.Bind(wx.EVT_MENU, self.editContestants, item)
 
@@ -191,6 +194,11 @@ class MCBuzzer(wx.Frame):
         ld.Centre()
         ld.Show()
         
+    def setFontSize(self, event=None):
+        f = fontsizeframe.FontSizeFrame(self)
+        f.Centre()
+        f.Show()
+    
 if __name__ == "__main__":
     app = wx.App(False)
     frame = MCBuzzer(None, wx.ID_ANY, "MATHCOUNTS")

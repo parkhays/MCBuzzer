@@ -21,6 +21,7 @@ class BuzzerConfigPanel(wx.Panel):
     """This Panel holds the widgets to configure the keystrokes used on the buzzers."""
     def __init__(self, parent, *args, **kwargs):
         wx.Panel.__init__(self, parent, *args, **kwargs)
+        self.parent = parent
         self.contestantAKey = wx.TextCtrl(self, size=(140, -1))
         self.contestantBKey = wx.TextCtrl(self, size=(140, -1))
 
@@ -29,10 +30,12 @@ class BuzzerConfigPanel(wx.Panel):
         # user-friendliness.
         self.contestantAKey.SetValue(str(dat.getKeycodes()[0] or '').lower())
         self.contestantBKey.SetValue(str(dat.getKeycodes()[1] or '').lower())
+        self.fontSizeSpinBox = wx.SpinCtrl(self)
+        self.fontSizeSpinBox.Bind(wx.EVT_SPINCTRL, self.updateFont)
         
         self.finishButton = wx.Button(self, label='Finish')
         
-        self.sizer = wx.GridBagSizer(3, 3)
+        self.sizer = wx.GridBagSizer(4, 3)
         self.sizer.Add(wx.StaticText(self, label="Contestant A Key:"), (0, 0))
         self.sizer.Add(wx.StaticText(self, label="Contestant B Key:"), (0, 1))
         self.sizer.Add(self.contestantAKey, (1, 0))
@@ -41,7 +44,16 @@ class BuzzerConfigPanel(wx.Panel):
         self.sizer.Add(self.finishButton, pos=(2, 0), span=(1,2), flag=wx.EXPAND)
 
         self.SetSizerAndFit(self.sizer)
+        
+    def updateFont(self, event):
+        initialSize = dat.nameFontSize
+        try:
+            dat.nameFontSize = int( self.fontSizeSpinBox.GetValue())
+        except:
+            print("problem in getting font")
 
+        if initialSize != dat.nameFontSize:
+            self.parent.parent.treePanel.updateTree()
         
 class BuzzerConfigFrame(wx.Frame):
     def __init__(self, *args, **kwargs):
