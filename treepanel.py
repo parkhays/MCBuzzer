@@ -15,22 +15,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import wx
-import wx.lib.scrolledpanel
+#import wx.lib.scrolledpanel
 import os
 
 from gdata import dat
 import competitorGrid
 import contestframe
 
-class TreePanel(wx.lib.scrolledpanel.ScrolledPanel):
+class TreePanel(wx.Panel):#lib.scrolledpanel.ScrolledPanel):
     def __init__(self, parent, *args, **kwargs):
-        wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent, *args, **kwargs)#
-#        wx.Panel.__init__(self, parent, *args, **kwargs)
+#        wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent, *args, **kwargs)#
+        wx.Panel.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         
         self.buttons = []
         
-        self.font = wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
+        self.font = wx.Font(dat.nameFontSize, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
 
         self.hgrid = wx.BoxSizer(wx.HORIZONTAL)
         self.vgridList = []
@@ -84,20 +84,24 @@ class TreePanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.hgrid.SetSizeHints(self)
         self.SetSizer(self.hgrid)
 
-        self.SetupScrolling()
+#        self.SetupScrolling()
 
-        self.Fit()
+#        self.Fit()
         
     def updateTree(self):
         """Update button text to reflect current state of the competition"""
         dat.contestState.updateAllFromParents()
         dat.autoSave()
+
+        self.font = wx.Font(dat.nameFontSize, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
+        
         for tier in range( len( dat.contestState.cstate)):
             for pairing in range( len( dat.contestState.cstate[tier])):
                 btn = self.buttons[tier][pairing]
                 btn.SetLabel(dat.contestState.displayStrA(tier, pairing)
                               + "\n" +
                               dat.contestState.displayStrB(tier, pairing))
+                btn.SetFont(self.font)
         wx.Yield()
         self.Layout()
         
