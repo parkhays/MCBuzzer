@@ -165,8 +165,10 @@ class ContestFrame(wx.Frame):
             self.callLater = wx.CallLater(100, self.on_timer)
             
     def OnBuzzerTestClicked(self, event):
-        buzzertestframe.BuzzerTestFrame(
-            self, tier=self.tier, pairing=self.pairing).Show()
+        bframe = buzzertestframe.BuzzerTestFrame(
+            self, tier=self.tier, pairing=self.pairing)
+        bframe.Centre()
+        bframe.Show()
         
     def OnFinishClicked(self, event):
         if self.callLater is not None:
@@ -177,7 +179,7 @@ class ContestFrame(wx.Frame):
         if self.ctst.winningCompetitor is not None:
             wx.MessageBox((self.ctst.winningCompetitor.name or '') + ' Is The Winner!', 'Info',
                           wx.OK | wx.ICON_INFORMATION)
-
+            
         self.parent.treePanel.updateTree()
         self.parent.SetFocus()
         self.Close()
