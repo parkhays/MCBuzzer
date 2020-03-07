@@ -15,25 +15,21 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import wx
-import os
 
-class PrimaryFrame(wx.Frame):
-    """Main Frame holding the Panel."""
+from mcbuzzer import resource_path
+
+class LicenseFrame(wx.Frame):
     def __init__(self, *args, **kwargs):
         """Create the DemoFrame."""
         wx.Frame.__init__(self, *args, **kwargs)
-        self.Sizer = wx.BoxSizer(wx.VERTICAL)
-        self.SetSizer( self.Sizer)
-        self.Btn = wx.Button(self, label="OK")
-        self.Btn.Bind(wx.EVT_BUTTON, self.updateButton )
-        self.Sizer.Add( self.Btn)
+        self.SetTitle("MCbuzzer License")
+        
+        sizer = wx.BoxSizer(wx.HORIZONTAL)
+        tc = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_MULTILINE|wx.TE_READONLY)
+        tc.LoadFile(resource_path( "resources/LICENSE"),
+                    fileType=wx.TEXT_TYPE_ANY)
+        sizer.Add(tc, 1, flag=wx.EXPAND)
+        self.SetSizer(sizer)
+        self.Layout()
+        
 
-    def updateButton(self, event=None):
-        self.Btn.SetLabel("A Very Long Button Text Entry")
-        self.Btn.Fit()
-
-if __name__ == "__main__":
-    app = wx.App(False)
-    frame = PrimaryFrame(None, wx.ID_ANY, "MATHCOUNTS")
-    frame.Show(True)
-    app.MainLoop()
