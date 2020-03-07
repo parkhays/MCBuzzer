@@ -127,6 +127,10 @@ class ContestFrame(wx.Frame):
 
         self.Bind( wx.EVT_CLOSE, self.OnClose)
 
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap('resources/main_logo1.ico', wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+
     def updateAScore(self, event):
         self.ctst.scoreA = int(self.aScoreBox.GetValue())
         

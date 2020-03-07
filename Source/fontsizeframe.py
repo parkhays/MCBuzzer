@@ -47,6 +47,10 @@ class FontSizeFrame(wx.Frame):
         self.Layout()
         self.SetAutoLayout( True)
 
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap('resources/main_logo1.ico', wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+
     def updateTestFont(self, event):
         self.font.SetPointSize(self.fontSizeSpinBox.GetValue())
         self.fontSizeTest.SetFont(self.font)

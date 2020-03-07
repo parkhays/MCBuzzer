@@ -22,14 +22,18 @@ class LicenseFrame(wx.Frame):
     def __init__(self, *args, **kwargs):
         """Create the DemoFrame."""
         wx.Frame.__init__(self, *args, **kwargs)
-        self.SetTitle("MCbuzzer License")
+        self.SetTitle('MCBuzzer License')
         
         sizer = wx.BoxSizer(wx.HORIZONTAL)
         tc = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_MULTILINE|wx.TE_READONLY)
-        tc.LoadFile(resource_path( "resources/LICENSE"),
+        tc.LoadFile(resource_path( 'LICENSE'),
                     fileType=wx.TEXT_TYPE_ANY)
         sizer.Add(tc, 1, flag=wx.EXPAND)
         self.SetSizer(sizer)
         self.Layout()
-        
+
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap('resources/main_logo1.ico', wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+
 

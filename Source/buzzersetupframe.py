@@ -30,8 +30,6 @@ class BuzzerConfigPanel(wx.Panel):
         # user-friendliness.
         self.contestantAKey.SetValue(str(dat.getKeycodes()[0] or '').lower())
         self.contestantBKey.SetValue(str(dat.getKeycodes()[1] or '').lower())
-        self.fontSizeSpinBox = wx.SpinCtrl(self)
-        self.fontSizeSpinBox.Bind(wx.EVT_SPINCTRL, self.updateFont)
         
         self.finishButton = wx.Button(self, label='Finish')
         
@@ -44,7 +42,7 @@ class BuzzerConfigPanel(wx.Panel):
         self.sizer.Add(self.finishButton, pos=(2, 0), span=(1,2), flag=wx.EXPAND)
 
         self.SetSizerAndFit(self.sizer)
-        
+
     def updateFont(self, event):
         initialSize = dat.nameFontSize
         try:
@@ -65,6 +63,10 @@ class BuzzerConfigFrame(wx.Frame):
         self.Panel.finishButton.Bind(wx.EVT_BUTTON, self.finishAndUpdate)
         self.Fit()
 
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap('resources/main_logo1.ico', wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+        
     def finishAndUpdate(self, event):
         dat.setKeycodes(self.Panel.contestantAKey.GetValue(), self.Panel.contestantBKey.GetValue())
         print('set keycodes')

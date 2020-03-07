@@ -39,7 +39,6 @@ class TimerSetupPanel(wx.Panel):
 
         self.SetSizerAndFit(self.sizer)
 
-        
 class TimerSetupFrame(wx.Frame):
     def __init__(self, *args, **kwargs):
         """Create the DemoFrame."""
@@ -50,6 +49,10 @@ class TimerSetupFrame(wx.Frame):
         self.Panel.finishButton.Bind(wx.EVT_BUTTON, self.finishAndUpdate)
         self.Fit()
 
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap('resources/main_logo1.ico', wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+        
     def finishAndUpdate(self, event):
         dat.questionTimer = int(self.Panel.questionTimerCtrl.GetValue())
         dat.answerTimer = int(self.Panel.answerTimerCtrl.GetValue())

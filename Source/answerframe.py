@@ -70,7 +70,11 @@ class AnswerFrame(wx.Frame):
         self.Layout()
         self.SetAutoLayout(True)
         self.Bind( wx.EVT_CLOSE, self.OnClose)
-        
+
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap('resources/main_logo1.ico', wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+
         self.OnTimer()
 
     def correct(self, event):
