@@ -32,6 +32,7 @@ class ContestFrame(wx.Frame):
         -----
         tier
         pairing
+        tree
         """
         wx.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
