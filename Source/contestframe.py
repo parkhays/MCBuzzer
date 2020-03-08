@@ -21,7 +21,6 @@ from gdata import dat
 import competitorGrid
 import contest
 import answerframe
-import treepanel
 import buzzertestframe
 
 class ContestFrame(wx.Frame):
@@ -111,7 +110,8 @@ class ContestFrame(wx.Frame):
         self.bScoreBox = wx.SpinCtrl(self)
         bStack.Add( self.bScoreBox, 1)
         self.bScoreBox.Bind(wx.EVT_SPINCTRL, self.updateBScore)
-
+        self.bScoreBox.Bind(wx.EVT_TEXT, self.updateBScore)
+        
         finishBtn = wx.Button(self, wx.ID_ANY, 'Finish Round')
         stack.Add(finishBtn, 0, wx.CENTER|wx.EXPAND)
         finishBtn.Bind(wx.EVT_BUTTON, self.OnFinishClicked)
@@ -128,19 +128,25 @@ class ContestFrame(wx.Frame):
 
         self.Bind( wx.EVT_CLOSE, self.OnClose)
 
-    def updateAScore(self, event):
+    def updateAScore(self, event=None):
+        """Handler for the spinbox event that holds the score, competitor A"""
         self.ctst.scoreA = int(self.aScoreBox.GetValue())
         
-    def updateBScore(self, event):
+    def updateBScore(self, event=None):
+        """Handler for the spinbox event that holds the score, competitor B"""
         self.ctst.scoreB = int(self.bScoreBox.GetValue())
 
-    def OnKeyPress(self, event):
+    def OnKeyPress(self, event=None):
+        """Responds to buzzer key entry. If key matches known competitor's
+        buzzer configuration, then launch a frame to permit him or her
+        to answer.
+
+        """
         letter = chr(event.GetKeyCode())
 
         if dat.buzzerConfig.keycodeA == letter and self.cmpAEnabled:
             if self.callLater is not None:
                 self.callLater.Stop()
-            #print('got buzzer code for competitor A')
             a = answerframe.AnswerFrame(self, contest=self.ctst, competitor=self.cmpA,
                                     scorebox=self.aScoreBox, competitorAorB = 'a',
                                     title=(self.cmpA.name or '')+ ' For The Answer!')
@@ -150,34 +156,45 @@ class ContestFrame(wx.Frame):
         elif dat.buzzerConfig.keycodeB == letter and self.cmpBEnabled:
             if self.callLater is not None:
                 self.callLater.Stop()
-            #print('got buzzer code for competitor B')
             a = answerframe.AnswerFrame(self, contest=self.ctst, competitor=self.cmpB,
                                     scorebox=self.bScoreBox, competitorAorB = 'b',
                                     title=(self.cmpB.name or '') + ' For The Answer!')
             a.Centre()
             a.Show(True)
-            
-        else:
-            print("something's wrong, got letter '%s' that wasn't registered in dat" % letter)
-        
-    def OnStartClicked(self, event):
+                    
+    def OnStartClicked(self, event=None):
+        """Starts the timer running"""
         self.SetBackgroundColour(wx.Colour(255,255,255))
         if self.questionTimer > 0:
             self.callLater = wx.CallLater(100, self.on_timer)
             
-    def OnBuzzerTestClicked(self, event):
+    def OnBuzzerTestClicked(self, event=None):
+        """Opens the buzzer test dialog"""
         bframe = buzzertestframe.BuzzerTestFrame(
             self, tier=self.tier, pairing=self.pairing)
         bframe.Centre()
         bframe.Show()
         
     def OnFinishClicked(self, event):
+        """Handle finished button. Will disable the timer if it is
+        running. Displays a winner dialog box, if one competitor has a higher
+        score than the other. Tells the parent to update the tree display.
+
+        """
         if self.callLater is not None:
             self.callLater.Stop()
             del self.callLater
-            
-        if self.ctst.winningCompetitor is not None:
-            wx.MessageBox((self.ctst.winningCompetitor.name or '') + ' Is The Winner!', 'Info',
+
+        # Event processing should update the scores, but in some cases
+        # changing the spinctrl, with the arrow buttons, does not
+        # produce an event, so the event handler never gets
+        # called. This code works around that problem. See issue #14
+        # in GitHub.
+        self.updateAScore()
+        self.updateBScore()
+        
+        if self.ctst.winner() is not None:
+            wx.MessageBox((self.ctst.winner().name or '') + ' Is The Winner!', 'Info',
                           wx.OK | wx.ICON_INFORMATION)
             
         self.parent.treePanel.updateTree()
@@ -185,6 +202,7 @@ class ContestFrame(wx.Frame):
         self.Close()
 
     def OnResetClicked(self, event):
+        """Resets the countdown timer, and re-enables both competitor's buzzers."""
         self.SetBackgroundColour(wx.Colour(255,255,255))
         try:
             self.callLater.Stop()
@@ -202,9 +220,17 @@ class ContestFrame(wx.Frame):
             del self._disabler
 
     def displayTime(self):
+        """Updates timer displayed text. This is normally called by a timed
+        function on_timer()
+
+        """
         self.timertext.SetLabel('%d'%self.questionTimer)
         
     def on_timer(self, *args, **kwargs):
+        """Every small increment decide whether to update the text, and check
+        if the background color needs be set to red--making timeout obvious.
+
+        """
         self.questionTimer -= 0.1
 
         # the background color code needs to go in a seperate /if/
@@ -221,6 +247,10 @@ class ContestFrame(wx.Frame):
         self.callLater.Start()
         
     def OnClose(self, event):
+        """If a timer is running, stop it so there are no unhandled exceptions
+        from the timer's callback method no longer existing.
+
+        """
         try:
             self.callLater.Stop()
         except AttributeError:
