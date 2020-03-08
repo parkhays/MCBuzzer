@@ -115,24 +115,41 @@ partially populated.
         return (self.cstate[lvl-1][idx*2], self.cstate[lvl-1][idx*2+1])
 
     def updateFromParents(self, lvl, idx):
+        """Determines which competitors are in the contest based on who won or
+        lost parent competition.
+
+        """
         c = self.contestByLevelAndIndex(lvl, idx)
         
-        # Get the parent contestes
+        # Get the parent contests
         a, b = self.contestParents( lvl, idx)
 
         if c.isThirdPlace:
-            if c.compA is None and a.loser() is not None:
+            if a.loser() != c.compA:
                 c.setA(a.loser())
+            elif a.loser() is None:
+                c.setA(None)
 
-            if c.compB is None and b.loser() is not None:
+            if b.loser() != c.compB:
                 c.setB(b.loser())
+            elif b.loser() is None:
+                c.setB(None)
 
         else:
-            if c.compA is None and a.winner() is not None:
+            # This is fairly confusing to reason through. If the
+            # parent winner changed, we want to update the
+            # corresponding competitor. However, if the winner is the
+            # same, we want to preserve the winner and the local
+            # score.
+            if a.winner() != c.compA:
                 c.setA(a.winner())
-
-            if c.compB is None and b.winner() is not None:
+            elif a.winner() is None:
+                c.setA(None)
+                
+            if b.winner() != c.compB:
                 c.setB(b.winner())
+            elif b.winner() is None:
+                c.setB(None)
             
     def updateAllFromParents(self):
         for lvl in range(1, len(self.cstate)):

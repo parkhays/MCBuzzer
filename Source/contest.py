@@ -82,6 +82,10 @@ of tie, including when both scores are 0.
         
     def setWinner(self):
         """Sets, the winner."""
+        # if either competitor is None, then none
+        if self.compA is None or self.compB is None:
+            return None
+        
         if self.scoreA == self.scoreB:
             self.winningCompetitor = None
         elif self.scoreA > self.scoreB:
