@@ -17,6 +17,8 @@
 import wx
 from gdata import dat
 
+from resource import resource_path
+
 class FontSizeFrame(wx.Frame):
     """Frame for setting the font size of the name buttons in the TreePanel.
     """
@@ -46,6 +48,11 @@ class FontSizeFrame(wx.Frame):
 
         self.Layout()
         self.SetAutoLayout( True)
+
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap(
+            resource_path('resources/main_logo1.ico'), wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
 
     def updateTestFont(self, event):
         self.font.SetPointSize(self.fontSizeSpinBox.GetValue())

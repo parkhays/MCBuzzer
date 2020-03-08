@@ -20,6 +20,8 @@ import os
 from gdata import dat
 import contest
 
+from resource import resource_path
+
 class BuzzerTestFrame(wx.Frame):
     def __init__(self, parent, *args, tier=None, pairing=None, **kwargs):
         """Contest frame creation
@@ -71,7 +73,11 @@ class BuzzerTestFrame(wx.Frame):
         
         self.okButton.Bind(wx.EVT_KEY_DOWN, self.OnKeyPress)
         self.UpdateText()
-        
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap(
+            resource_path('resources/main_logo1.ico'), wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+
         container.SetSizeHints(self)
         self.SetSizer( container)
         self.Layout()

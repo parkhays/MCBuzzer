@@ -17,7 +17,9 @@
 import wx, wx.grid
 from gdata import dat
 import competitor
-        
+
+from resource import resource_path
+
 class CompetitorPanel(wx.Panel):
     """This Panel holds the competitor grid display and an 'OK' button"""
     
@@ -81,6 +83,11 @@ class CompetitorFrame(wx.Frame):
     def __init__(self, *args, **kwargs):
         """Create the DemoFrame."""
         wx.Frame.__init__(self, *args, **kwargs)
+
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap(
+            resource_path('resources/main_logo1.ico'), wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
 
         # Add the Widget Panel
         self.Panel = CompetitorPanel(self)

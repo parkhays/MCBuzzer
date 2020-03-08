@@ -23,6 +23,8 @@ import contest
 import answerframe
 import buzzertestframe
 
+from resource import resource_path
+
 class ContestFrame(wx.Frame):
     def __init__(self, parent, *args, tier=None, pairing=None, tree=None, **kwargs):
         """Contest frame creation
@@ -128,8 +130,14 @@ class ContestFrame(wx.Frame):
 
         self.Bind( wx.EVT_CLOSE, self.OnClose)
 
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap(
+            resource_path('resources/main_logo1.ico'), wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+
     def updateAScore(self, event=None):
         """Handler for the spinbox event that holds the score, competitor A"""
+
         self.ctst.scoreA = int(self.aScoreBox.GetValue())
         
     def updateBScore(self, event=None):

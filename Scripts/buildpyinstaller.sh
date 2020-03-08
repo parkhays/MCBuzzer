@@ -14,7 +14,14 @@
 # Pip needs to install PyInstaller:
 # pip install pyinstaller
 
-pyinstaller --onefile --windowed --add-data "resources/main_banner.jpg:./resources" --add-data "LICENSE:./resources" --add-data "resources/ABOUT.txt:./resources" Source/mcbuzzer.py
+
+pyinstaller --onefile --windowed \
+	    --add-data "resources/main_banner.jpg:./resources" \
+	    --add-data "LICENSE:." \
+	    --add-data "resources/ABOUT.txt:./resources" \
+	    --add-data "resources/main_logo1.ico:./resources" \
+	    Source/mcbuzzer.py
+
 
 # Note that the semicolons in the Windows version have to be replaced
 # with colons because the *nix path seperator is a colon.

@@ -18,6 +18,9 @@ import wx
 from gdata import dat
 import contest
 
+from resource import resource_path
+
+
 class AnswerFrame(wx.Frame):
     """Dialog for a single competitor to answer his or her question"""
     
@@ -70,7 +73,12 @@ class AnswerFrame(wx.Frame):
         self.Layout()
         self.SetAutoLayout(True)
         self.Bind( wx.EVT_CLOSE, self.OnClose)
-        
+
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap(
+            resource_path('resources/main_logo1.ico'), wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+
         self.OnTimer()
 
     def correct(self, event):

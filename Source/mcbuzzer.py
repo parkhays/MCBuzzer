@@ -112,6 +112,11 @@ class MCBuzzer(wx.Frame):
         stack.SetSizeHints(self)
         self.SetSizer(stack)
 
+        icon = wx.Icon()
+        icon.CopyFromBitmap(wx.Bitmap(
+            resource_path('resources/main_logo1.ico'), wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+        
     def updateTree(self, event=None):
         """Updates the tree display based on the data currently in the data structure."""
         self.treePanel.updateTree()
