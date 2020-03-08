@@ -16,7 +16,7 @@
 
 import wx
 
-from mcbuzzer import resource_path
+from resource import resource_path
 
 class LicenseFrame(wx.Frame):
     def __init__(self, *args, **kwargs):
@@ -33,7 +33,8 @@ class LicenseFrame(wx.Frame):
         self.Layout()
 
         icon = wx.Icon()
-        icon.CopyFromBitmap(wx.Bitmap('resources/main_logo1.ico', wx.BITMAP_TYPE_ANY))
+        icon.CopyFromBitmap(wx.Bitmap(
+            resource_path('resources/main_logo1.ico'), wx.BITMAP_TYPE_ANY))
         self.SetIcon(icon)
 
 

@@ -113,7 +113,8 @@ class MCBuzzer(wx.Frame):
         self.SetSizer(stack)
 
         icon = wx.Icon()
-        icon.CopyFromBitmap(wx.Bitmap('resources/main_logo1.ico', wx.BITMAP_TYPE_ANY))
+        icon.CopyFromBitmap(wx.Bitmap(
+            resource_path('resources/main_logo1.ico'), wx.BITMAP_TYPE_ANY))
         self.SetIcon(icon)
         
     def updateTree(self, event=None):

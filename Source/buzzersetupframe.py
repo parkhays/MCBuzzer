@@ -17,6 +17,8 @@
 import wx
 from gdata import dat
 
+from resource import resource_path
+
 class BuzzerConfigPanel(wx.Panel):
     """This Panel holds the widgets to configure the keystrokes used on the buzzers."""
     def __init__(self, parent, *args, **kwargs):
@@ -64,7 +66,8 @@ class BuzzerConfigFrame(wx.Frame):
         self.Fit()
 
         icon = wx.Icon()
-        icon.CopyFromBitmap(wx.Bitmap('resources/main_logo1.ico', wx.BITMAP_TYPE_ANY))
+        icon.CopyFromBitmap(wx.Bitmap(
+            resource_path('resources/main_logo1.ico'), wx.BITMAP_TYPE_ANY))
         self.SetIcon(icon)
         
     def finishAndUpdate(self, event):
