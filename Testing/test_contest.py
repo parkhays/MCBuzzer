@@ -25,6 +25,7 @@ import contest
 import competitor
 
 def test_init():
+    """Test initialization of  of Contest class"""
     a = competitor.Competitor("A", "a-school")
     b = competitor.Competitor("B", "b-school")
     
@@ -37,6 +38,7 @@ def test_init():
     assert c.winningCompetitor == None
 
 def test_increment():
+    """Test that incrementing the score of competitors in a contest"""
     a = competitor.Competitor("A", "a-school")
     b = competitor.Competitor("B", "b-school")
     
@@ -66,6 +68,7 @@ def test_increment():
     assert c.scoreB == 1
     
 def test_winner():
+    """Test that the winner is returned correctly"""
     a = competitor.Competitor("A", "a-school")
     b = competitor.Competitor("B", "b-school")
     
@@ -82,20 +85,12 @@ def test_winner():
     c.reset()
     assert c.winner() is None
 
-def test_declareWinner():
+def test_set():
+    """Test that incrementing the score of competitors in a contest"""
     a = competitor.Competitor("A", "a-school")
     b = competitor.Competitor("B", "b-school")
-    
     c = contest.Contest(a,b)
-
-    c.increment(a)
-    assert c.winner() == a
-
-    c.declareWinner()
-    assert c.winner() == a
-
-    c.declareWinner(b)
-    assert c.winner() == b
-
-    c.reset()
-    assert c.winner() is None
+    c.set(comp=a, value=10)
+    c.set(comp=b, value=3)
+    assert c.scoreA == 10
+    assert c.scoreB == 3

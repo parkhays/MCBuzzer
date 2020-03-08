@@ -14,6 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+"""Contest object represent the state, and operations, on a
+two-competitor contest. Can decide who is a winner, loser, or whether
+there is no contestant in the lead.
+
+"""
+
 from competitor import UnrecognizedCompetitorError
 
 class Contest(object):
@@ -28,6 +34,7 @@ class Contest(object):
         self.winningCompetitor = None
 
     def __str__(self):
+        """Prints a human-readable expression of the contest"""
         s = str(self.compA) + " score %d, "%self.scoreA
         s += str(self.compB) + " score %d, "%self.scoreB
         if self.winningCompetitor is None:
@@ -38,11 +45,13 @@ class Contest(object):
         return s
     
     def setA(self, comp):
+        """Sets competitor A"""
         self.compA = comp
         self.scoreA = 0
         self.winningCompetitor = None
 
     def setB(self, comp):
+        """Sets competitor B"""
         self.compB = comp
         self.scoreB = 0
         self.winningCompetitor = None
@@ -68,12 +77,15 @@ of tie, including when both scores are 0.
 of tie, including when both scores are 0.
 
         """
-        if self.winningCompetitor is not None:
-            self.setWinner()
-            return self.winningCompetitor
+        self.setWinner()
+        return self.winningCompetitor
         
     def setWinner(self):
-        """Sets, and will override the established winner"""
+        """Sets, the winner."""
+        # if either competitor is None, then none
+        if self.compA is None or self.compB is None:
+            return None
+        
         if self.scoreA == self.scoreB:
             self.winningCompetitor = None
         elif self.scoreA > self.scoreB:
@@ -82,6 +94,7 @@ of tie, including when both scores are 0.
             self.winningCompetitor = self.compB
         
     def increment(self, comp, amount=1):
+        """Increases score of specified competitor."""
         if comp == self.compA:
             self.scoreA += amount
         elif comp == self.compB:
@@ -90,7 +103,7 @@ of tie, including when both scores are 0.
             raise UnrecognizedCompetitorError(comp)
 
     def set(self, comp=None, value=0):
-        print("Competitor: ", comp)
+        """Set the score of a competitor"""
         if comp == self.compA:
             self.scoreA = value
         elif comp == self.compB:
@@ -102,20 +115,7 @@ of tie, including when both scores are 0.
             self.scoreB = value
 
     def reset(self):
+        """Sets both competitor's scores to 0, and resets winningCompetitor to
+None"""
         self.set()
         self.winningCompetitor = None
-
-    def declareWinner(self, competitor=None):
-        """Sets the winner to the specified competitor.
-
-        If no competitor is specified, then set to result of
-        self.winner(). Note that this can result in no winner being
-        set because winner() can fail with a tie.
-
-        """
-        if competitor is not None:
-            self.winningCompetitor = competitor
-            return
-
-        self.setWinner()
-        self.winningCompetitor = self.winner()

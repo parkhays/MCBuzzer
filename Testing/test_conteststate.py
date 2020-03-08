@@ -72,10 +72,10 @@ def test_updateFromParents():
     assert cn.compB is None
     
     a, b = cs.contestParents(1,0)
-    a.declareWinner(a.compA)
-    b.declareWinner(b.compA)
+    a.increment( a.compA, 1)
+    b.increment( b.compA, 1)
     cs.updateFromParents(1,0)
-    
+
     assert str(cn.compA) == str(conlist[0].compA)
     assert str(cn.compB) == str(conlist[1].compA)
 
@@ -92,8 +92,8 @@ def test_updateAllFromParents():
     assert cn.compB is None
     
     a, b = cs.contestParents(1,0)
-    a.declareWinner(a.compA)
-    b.declareWinner(b.compA)
+    a.increment(a.compA, 1)
+    b.increment(b.compA, 1)
     cs.updateAllFromParents()
     
     assert str(cn.compA) == str(conlist[0].compA)
