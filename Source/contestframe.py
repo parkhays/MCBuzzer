@@ -66,7 +66,6 @@ class ContestFrame(wx.Frame):
         self.timertext = wx.StaticText(self, wx.ID_ANY, '%d'%self.questionTimer)
         self.timertext.SetFont(self.bigFont)
         stack.Add( self.timertext, 0, wx.CENTER, 10)
-        self.timerEnabled = False
         
         # Add elements about the contestants
         contestantBox = wx.BoxSizer(wx.HORIZONTAL)
@@ -241,13 +240,13 @@ class ContestFrame(wx.Frame):
         """
         self.questionTimer -= 0.1
 
+        
         # the background color code needs to go in a seperate /if/
         # statement to make it turn red when it should. 
         if self.questionTimer < 1:
             self.SetBackgroundColour(wx.Colour(255,0,0))
             
         if self.questionTimer <= 0:
-            self.timerEnabled = False
             return
         
         self.displayTime()

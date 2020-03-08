@@ -45,8 +45,6 @@ class AnswerFrame(wx.Frame):
         self.SetBackgroundColour( wx.Colour( 255, 255, 255 ) ) 
         stack = wx.GridBagSizer(3, 2)
 
-        self.timerEnabled = True
-
         # a little code to prevent NoneType errors
         competitorText = wx.StaticText(self, wx.ID_ANY, str(competitor.name or '--Competitor unset--'), style=wx.ALIGN_CENTER)
         competitorText.SetFont( self.font)
@@ -115,10 +113,15 @@ class AnswerFrame(wx.Frame):
             self.parent.cmpBEnabled = False
 
         self.Destroy()
-        
+
+    def displayTime(self):
+        """Updates timer displayed text. This is normally called by a timed
+        function OnTimer()
+
+        """
+        self.timerText.SetLabel('%d'%self.answerTimer)
+
     def OnTimer(self):
-        if not self.timerEnabled:
-            return
         
         self.answerTimer -= 0.1
 
@@ -128,11 +131,9 @@ class AnswerFrame(wx.Frame):
             self.SetBackgroundColour(wx.Colour(255,0,0))
             
         if self.answerTimer <= 0:
-            self.timerEnabled = False
             return
-        
-        if 0.95 < self.answerTimer%1 or self.answerTimer%1 <= 0.05:
-            self.timerText.SetLabel("%d"%self.answerTimer)
+
+        self.displayTime()
 
         self.callLater = wx.CallLater(100, self.OnTimer)
 
