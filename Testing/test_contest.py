@@ -82,17 +82,3 @@ def test_winner():
     c.reset()
     assert c.winner() is None
 
-def test_declareWinner():
-    a = competitor.Competitor("A", "a-school")
-    b = competitor.Competitor("B", "b-school")
-    
-    c = contest.Contest(a,b)
-
-    c.increment(a)
-    assert c.winner() == a
-
-    c.declareWinner()
-    assert c.winner() == a
-
-    c.reset()
-    assert c.winner() is None

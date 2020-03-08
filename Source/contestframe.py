@@ -175,7 +175,6 @@ class ContestFrame(wx.Frame):
             self.callLater.Stop()
             del self.callLater
             
-        self.ctst.declareWinner()
         if self.ctst.winningCompetitor is not None:
             wx.MessageBox((self.ctst.winningCompetitor.name or '') + ' Is The Winner!', 'Info',
                           wx.OK | wx.ICON_INFORMATION)

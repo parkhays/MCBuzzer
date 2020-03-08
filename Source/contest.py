@@ -103,18 +103,3 @@ of tie, including when both scores are 0.
     def reset(self):
         self.set()
         self.winningCompetitor = None
-
-    def declareWinner(self, competitor=None):
-        """Sets the winner to the specified competitor.
-
-        If no competitor is specified, then set to result of
-        self.winner(). Note that this can result in no winner being
-        set because winner() can fail with a tie.
-
-        """
-        if competitor is not None:
-            self.winningCompetitor = competitor
-            return
-
-        self.setWinner()
-        self.winningCompetitor = self.winner()
