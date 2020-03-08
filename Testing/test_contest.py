@@ -94,8 +94,5 @@ def test_declareWinner():
     c.declareWinner()
     assert c.winner() == a
 
-    c.declareWinner(b)
-    assert c.winner() == b
-
     c.reset()
     assert c.winner() is None

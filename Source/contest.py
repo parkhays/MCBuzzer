@@ -68,9 +68,8 @@ of tie, including when both scores are 0.
 of tie, including when both scores are 0.
 
         """
-        if self.winningCompetitor is not None:
-            self.setWinner()
-            return self.winningCompetitor
+        self.setWinner()
+        return self.winningCompetitor
         
     def setWinner(self):
         """Sets, and will override the established winner"""
