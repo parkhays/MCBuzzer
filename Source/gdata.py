@@ -27,8 +27,8 @@ class UnsetFilenameError(Exception):
 
 class BuzzerConfig(object):
     def __init__(self):
-        self.keycodeA = None
-        self.keycodeB = None
+        self.keycodeA = "H"
+        self.keycodeB = "C"
 
     def __str__(self):
         s = "Keycode A: {}\n".format(self.keycodeA)
