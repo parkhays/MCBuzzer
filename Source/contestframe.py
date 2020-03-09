@@ -258,10 +258,9 @@ class ContestFrame(wx.Frame):
         from the timer's callback method no longer existing.
 
         """
-        try:
+        if self.callLater is not None:
             self.callLater.Stop()
-        except AttributeError:
-            pass
-            
+            del self.callLater
+                        
         self.parent.Raise()
         event.Skip()
