@@ -188,10 +188,14 @@ class ContestFrame(wx.Frame):
         score than the other. Tells the parent to update the tree display.
 
         """
-        if self.callLater is not None:
-            self.callLater.Stop()
-            del self.callLater
-
+        
+        try:
+            if self.callLater is not None:
+                self.callLater.Stop()
+                del self.callLater
+        except AttributeError:
+            pass
+        
         # Event processing should update the scores, but in some cases
         # changing the spinctrl, with the arrow buttons, does not
         # produce an event, so the event handler never gets
@@ -258,9 +262,12 @@ class ContestFrame(wx.Frame):
         from the timer's callback method no longer existing.
 
         """
-        if self.callLater is not None:
-            self.callLater.Stop()
-            del self.callLater
-                        
+        try:
+            if self.callLater is not None:
+                self.callLater.Stop()
+                del self.callLater
+        except AttributeError:
+            pass
+        
         self.parent.Raise()
         event.Skip()
