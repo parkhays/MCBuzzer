@@ -5,6 +5,9 @@ state competition in 2020. MCbuzzer graphical user interface
 programming is in [WxPython](https://wxpython.org/), so that it will
 work on major operating systems Windows, Mac, and Linux. 
 
+[Example of using this application](https://youtu.be/qYsPMP_dnhg) can
+be found on YouTube.
+
 The main window shows the state of the contest. Sixteen competitors
 are randomly paired, and an elimination tree leads to first, second,
 and third place competitor.
